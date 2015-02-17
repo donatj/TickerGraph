@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TickerGraph Example</title>
+	<script src="src/TickerGraph.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			"use strict";
+
+			var tRandomChange = new TickerGraph(document.getElementById('TickerSampleRandomChange')),
+				tRandomDecrease = new TickerGraph(document.getElementById('TickerSampleRandomDecreasing')),
+				tPureRandom = new TickerGraph(document.getElementById('TickerSamplePurelyRandom')),
+				tSporadic = new TickerGraph(document.getElementById('TickerSampleSporadic')),
+				tOccasional = new TickerGraph(document.getElementById('TickerSampleOccasional')),
+				tSine = new TickerGraph(document.getElementById('TickerSampleSinusoidal'));
+
+			//Turn increases a darker green
+			tRandomDecrease.setColor(function( data ) {
+				if( data.ratio > data.prevRatio ) {
+					return "#090";
+				} else {
+					return "#0F0";
+				}
+			});
+
+			tPureRandom.setColor(function( data ) {
+				var d = Math.round(((data.increment / data.maxIncrement) * 200) + 55).toString(16);
+				return "#" + d + "0044";
+			});
+
+			var val = 0;
+			var valDec = 0;
+			var val3 = 0;
+			var val4 = 0;
+			var val5 = 0;
+			setInterval(function() {
+				val5 += .05;
+				tSine.push(Math.sin(val5));
+
+				valDec -= (Math.random() - .45);
+				tRandomDecrease.push(valDec);
+
+				tPureRandom.push(Math.random());
+
+				val3 += Math.random() > .9 ? 1 : -1;
+				val3 = Math.max(val3, 0);
+				tSporadic.push(val3);
+
+				val4 += Math.random() > .95 ? 1 : -1;
+				val4 = Math.max(val4, 0);
+				tOccasional.push(val4);
+
+				val += (Math.random() - .5) * 40;
+				tRandomChange.push(val);
+			}, 50);
+		});
+	</script>
+</head>
+<body>
+<style>
+	canvas {
+		border: 1px solid #eee;
+	}
+</style>
+
+<canvas id="TickerSampleRandomChange" width="400px" height="100px"></canvas>
+<br />
+<canvas id="TickerSampleRandomDecreasing" width="400px" height="100px"></canvas>
+<br />
+<canvas id="TickerSamplePurelyRandom" width="400px" height="100px"></canvas>
+<br />
+<canvas id="TickerSampleSporadic" width="400px" height="100px"></canvas>
+<br />
+<canvas id="TickerSampleOccasional" width="400px" height="100px"></canvas>
+<br />
+<canvas id="TickerSampleSinusoidal" width="400px" height="100px"></canvas>
+
+</body>
+</html>
