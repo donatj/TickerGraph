@@ -54,8 +54,13 @@ TickerGraph.prototype = {
 		var lastRatio = null;
 		for( var i = 0; i <= this.stack.length; i++ ) {
 			var val = this.stack[i],
-				ratio = ((val - min) / (max - min)),
-				scaled = ratio * h;
+				ratio = ((val - min) / (max - min));
+
+			if( isNaN(ratio) ) {
+				ratio = 0;
+			}
+
+			var scaled = ratio * h;
 
 			if( typeof this.color == "function" ) {
 				// @todo update this to be pretty scaled.
