@@ -65,12 +65,13 @@ TickerGraph.prototype = {
 			if( typeof this.color == "function" ) {
 				// @todo update this to be pretty scaled.
 				c.strokeStyle = this.color({
-					increment   : i,
-					maxIncrement: this.stack.length,
-					ratio       : ratio,
-					prevRatio   : lastRatio,
-					maxValue    : max,
-					minValue    : min
+					increment      : i,
+					maxIncrement   : this.stackLength,
+					curMaxIncrement: this.stack.length,
+					ratio          : ratio,
+					prevRatio      : lastRatio,
+					maxValue       : max,
+					minValue       : min
 				});
 			}
 
