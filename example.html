@@ -27,30 +27,32 @@
 				tOccasional = new TickerGraph(document.getElementById('TickerSampleOccasional'), {bottomOffsetPx: 2}),
 				tSine = new TickerGraph(document.getElementById('TickerSampleSinusoidal'));
 
-			var val = 0;
-			var valDec = 0;
-			var val3 = 0;
-			var val4 = 0;
-			var val5 = 0;
-			setInterval(function() {
-				val5 += .05;
-				tSine.push(Math.sin(val5));
 
+			var valRandChange = 0,
+				valDec = 0,
+				valSporadic = 0,
+				valOccasional = 0,
+				valSine = 0;
+
+			setInterval(function() {
 				valDec -= (Math.random() - .45);
 				tRandomDecrease.push(valDec);
 
 				tPureRandom.push(Math.random());
 
-				val3 += Math.random() > .9 ? 1 : -1;
-				val3 = Math.max(val3, 0);
-				tSporadic.push(val3);
+				valSporadic += Math.random() > .85 ? 1 : -1;
+				valSporadic = Math.max(valSporadic, 0);
+				tSporadic.push(valSporadic);
 
-				val4 += Math.random() > .95 ? 1 : -1;
-				val4 = Math.max(val4, 0);
-				tOccasional.push(val4);
+				valOccasional += Math.random() > .97 ? 1 : -1;
+				valOccasional = Math.max(valOccasional, 0);
+				tOccasional.push(valOccasional);
 
-				val += (Math.random() - .5) * 40;
-				tRandomChange.push(val);
+				valRandChange += (Math.random() - .5) * 40;
+				tRandomChange.push(valRandChange);
+
+				valSine += .05;
+				tSine.push(Math.sin(valSine));
 			}, 50);
 		});
 	</script>
