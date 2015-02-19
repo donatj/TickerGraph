@@ -16,7 +16,7 @@ var TickerGraph = function( tickerCanvas ) {
 	this.context = this.canvas.getContext("2d");
 
 	this.stackLength = this.canvas.offsetWidth;
-	this.stack = [0];
+	this.stack = [];
 
 	this.color = "#0F0";
 };
