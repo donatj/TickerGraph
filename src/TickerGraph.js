@@ -119,6 +119,8 @@ TickerGraph.prototype = {
 	 */
 	setCanvas: function( tickerCanvas ) {
 		this.canvas = tickerCanvas;
+		this.context = this.canvas.getContext("2d");
+		this.stackLength = this.canvas.offsetWidth;
 	}
 };
 
