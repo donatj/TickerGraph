@@ -9,17 +9,29 @@
 
 /**
  * @param {Object} tickerCanvas The canvas element to draw to
+ * @param {Object} options The optional settings.
  * @constructor
  */
-var TickerGraph = function( tickerCanvas ) {
+var TickerGraph = function( tickerCanvas, options ) {
 	this.canvas = tickerCanvas;
 	this.context = this.canvas.getContext("2d");
 
 	this.stackLength = this.canvas.offsetWidth;
 	this.stack = [];
 
-	this.color = "#0F0";
 	this.lastPush = null;
+
+	this.options = {
+		color         : "#7c0",
+	};
+
+	if( typeof options == "object" ) {
+		for( var optName in options ) {
+			if( options.hasOwnProperty(optName) ) {
+				this.options[optName] = options[optName];
+			}
+		}
+	}
 };
 
 TickerGraph.prototype = {
@@ -50,10 +62,10 @@ TickerGraph.prototype = {
 		var max = this.max(),
 			min = this.min();
 
-		if( typeof this.color == "string" ) {
-			c.strokeStyle = this.color;
+		if( typeof this.options.color == "string" ) {
+			c.strokeStyle = this.options.color;
 		}
-		
+
 		var lastRatio = null;
 		for( var i = 0; i <= this.stack.length; i++ ) {
 
@@ -66,9 +78,9 @@ TickerGraph.prototype = {
 
 			var scaled = ratio * h;
 
-			if( typeof this.color == "function" ) {
+			if( typeof this.options.color == "function" ) {
 				// @todo update this to be pretty scaled.
-				c.strokeStyle = this.color({
+				c.strokeStyle = this.options.color({
 					increment      : i,
 					maxIncrement   : this.stackLength,
 					curMaxIncrement: this.stack.length,
@@ -113,7 +125,7 @@ TickerGraph.prototype = {
 	 * @param {string|setColorCallback} color
 	 */
 	setColor: function( color ) {
-		this.color = color;
+		this.options.color = color;
 	},
 
 	/**
