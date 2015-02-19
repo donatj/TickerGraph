@@ -8,25 +8,24 @@
 			"use strict";
 
 			var tRandomChange = new TickerGraph(document.getElementById('TickerSampleRandomChange')),
-				tRandomDecrease = new TickerGraph(document.getElementById('TickerSampleRandomDecreasing')),
-				tPureRandom = new TickerGraph(document.getElementById('TickerSamplePurelyRandom')),
-				tSporadic = new TickerGraph(document.getElementById('TickerSampleSporadic')),
-				tOccasional = new TickerGraph(document.getElementById('TickerSampleOccasional')),
+				tRandomDecrease = new TickerGraph(document.getElementById('TickerSampleRandomDecreasing'), {
+					color: function( data ) {
+						if( data.ratio > data.prevRatio ) {
+							return "#090";
+						} else {
+							return "#0F0";
+						}
+					}
+				}),
+				tPureRandom = new TickerGraph(document.getElementById('TickerSamplePurelyRandom'), {
+					color: function( data ) {
+						var d = Math.round(((data.increment / data.maxIncrement) * 200) + 55).toString(16);
+						return "#" + d + "0044";
+					}
+				}),
+				tSporadic = new TickerGraph(document.getElementById('TickerSampleSporadic'), {bottomOffsetPx: 2}),
+				tOccasional = new TickerGraph(document.getElementById('TickerSampleOccasional'), {bottomOffsetPx: 2}),
 				tSine = new TickerGraph(document.getElementById('TickerSampleSinusoidal'));
-
-			//Turn increases a darker green
-			tRandomDecrease.setColor(function( data ) {
-				if( data.ratio > data.prevRatio ) {
-					return "#090";
-				} else {
-					return "#0F0";
-				}
-			});
-
-			tPureRandom.setColor(function( data ) {
-				var d = Math.round(((data.increment / data.maxIncrement) * 200) + 55).toString(16);
-				return "#" + d + "0044";
-			});
 
 			var val = 0;
 			var valDec = 0;
@@ -59,7 +58,7 @@
 <body>
 <style>
 	canvas {
-		border: 1px solid #eee;
+		/*border: 1px solid #eee;*/
 	}
 </style>
 
