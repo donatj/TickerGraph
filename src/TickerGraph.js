@@ -42,7 +42,8 @@ TickerGraph.prototype = {
 		this.canvas.width = this.canvas.width + 0;
 
 		var c = this.context,
-			h = this.canvas.offsetHeight;
+			h = this.canvas.offsetHeight,
+			xOffset = this.stackLength - this.stack.length;
 
 		var max = this.max(),
 			min = this.min();
@@ -50,9 +51,10 @@ TickerGraph.prototype = {
 		if( typeof this.color == "string" ) {
 			c.strokeStyle = this.color;
 		}
-
+		
 		var lastRatio = null;
 		for( var i = 0; i <= this.stack.length; i++ ) {
+
 			var val = this.stack[i],
 				ratio = ((val - min) / (max - min));
 
@@ -76,9 +78,9 @@ TickerGraph.prototype = {
 			}
 
 			c.beginPath();
-			c.moveTo(i, h);
+			c.moveTo(xOffset + i, h);
 
-			c.lineTo(i, h - scaled);
+			c.lineTo(xOffset + i, h - scaled);
 			c.closePath();
 			c.stroke();
 
