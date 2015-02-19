@@ -19,6 +19,7 @@ var TickerGraph = function( tickerCanvas ) {
 	this.stack = [];
 
 	this.color = "#0F0";
+	this.lastPush = null;
 };
 
 TickerGraph.prototype = {
@@ -28,6 +29,7 @@ TickerGraph.prototype = {
 	 * @param {number} val The number to push
 	 */
 	push: function( val ) {
+		this.lastPush = val;
 		this.stack.push(val);
 		if( this.stack.length > this.stackLength ) {
 			this.stack.shift();
