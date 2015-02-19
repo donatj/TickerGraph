@@ -2,7 +2,18 @@
 
 ![Ticker Image Example](https://raw.githubusercontent.com/donatj/TickerGraph/readme-images/Ticker.gif)
 
-Simple JavaScript Real Time Ticker Graph
+Simple JavaScript Real Time "Ticker Graph"
+
+Requires **no external libraries**. It is **require-able** with RequireJS but RequireJS is by no means *required*.
+
+Dead simple, should work in any browser that supports the `<canvas>` tag.
+
+Here are [some more examples](https://cdn.rawgit.com/donatj/TickerGraph/master/example.html).
+
+## Features
+
+- Auto Scales to **min** and **max** values.
+- Color set-able per column via callback.
 
 ## Dead Simple Example
 
