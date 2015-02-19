@@ -9,6 +9,8 @@
   "moduleType": [
     "globals"
   ],
+  "ignore": [
+  ],
   "keywords": [
     "ticker",
     "graph"
