@@ -23,6 +23,7 @@ var TickerGraph = function( tickerCanvas, options ) {
 
 	this.options = {
 		color         : "#7c0",
+		bottomOffsetPx: 0
 	};
 
 	if( typeof options == "object" ) {
@@ -94,7 +95,7 @@ TickerGraph.prototype = {
 			c.beginPath();
 			c.moveTo(xOffset + i, h);
 
-			c.lineTo(xOffset + i, h - scaled);
+			c.lineTo(xOffset + i, (h - this.options.bottomOffsetPx) - scaled);
 			c.closePath();
 			c.stroke();
 
