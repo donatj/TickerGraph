@@ -1,0 +1,17 @@
+{
+  "name": "ticker-graph",
+  "homepage": "https://github.com/donatj/TickerGraph",
+  "authors": [
+    "Jesse Donat <donatj@gmail.com>"
+  ],
+  "description": "Simple Ticker Graph",
+  "main": "src/TickerGraph.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "ticker",
+    "graph"
+  ],
+  "license": "MIT"
+}
