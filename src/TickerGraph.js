@@ -8,7 +8,7 @@
  */
 
 /**
- * @param {Object} tickerCanvas The canvas element to draw to
+ * @param {Node} tickerCanvas The canvas element to draw to
  * @param {Object} options The optional settings.
  * @constructor
  */
