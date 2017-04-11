@@ -1,0 +1,33 @@
+{
+  "name": "ticker-graph",
+  "description": "Simple Ticker Graph",
+  "main": "./lib/TickerGraph.js",
+  "version" : "0.1.0",
+  "types": "./lib/TickerGraph.d.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donatj/TickerGraph.git"
+  },
+  "keywords": [
+    "Ticker",
+    "Graph"
+  ],
+  "author": {
+    "name": "Jesse G. Donat",
+    "email": "donatj@gmail.com",
+    "url": "https://donatstudios.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/donatj/TickerGraph/issues"
+  },
+  "homepage": "https://github.com/donatj/TickerGraph#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.12",
+    "@types/requirejs": "^2.1.29",
+    "mocha": "^3.2.0"
+  }
+}

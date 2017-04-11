@@ -2,7 +2,7 @@
   "name": "ticker-graph",
   "homepage": "https://github.com/donatj/TickerGraph",
   "authors": [
-    "Jesse Donat <donatj@gmail.com>"
+    "Jesse G. Donat <donatj@gmail.com>"
   ],
   "description": "Simple Ticker Graph",
   "main": "src/TickerGraph.js",
