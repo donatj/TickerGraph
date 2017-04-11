@@ -172,7 +172,7 @@ class TickerGraph {
 		this.context = ctx;
 		this.stackLength = tickerCanvas.offsetWidth;
 	}
-};
+}
 
 if (typeof define == "function") {
 	define([], function () {
