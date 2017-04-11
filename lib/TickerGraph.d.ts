@@ -19,7 +19,6 @@ interface ColorCallback {
 interface TickerGraphOptions {
     color: string | ColorCallback;
     bottomOffsetPx: number;
-    [propName: string]: any;
 }
 declare class TickerGraph {
     protected context: CanvasRenderingContext2D;

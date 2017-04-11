@@ -22,8 +22,6 @@ interface ColorCallback {
 interface TickerGraphOptions {
 	color: string | ColorCallback;
 	bottomOffsetPx: number;
-
-	[propName: string]: any;
 }
 
 class TickerGraph {
@@ -55,13 +53,7 @@ class TickerGraph {
 
 		this.lastPush = null;
 
-		if (options) {
-			for (let optName in options) {
-				if (options.hasOwnProperty(optName)) {
-					this.options[optName] = options[optName];
-				}
-			}
-		}
+		this.options = { ...this.options, ...options };
 	}
 
 	/**
