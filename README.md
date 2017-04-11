@@ -1,5 +1,7 @@
 # TickerGraph
 
+[![npm version](https://badge.fury.io/js/ticker-graph.svg)](https://badge.fury.io/js/ticker-graph)
+
 ![Ticker Image Example](https://raw.githubusercontent.com/donatj/TickerGraph/readme-images/Ticker.gif)
 
 Simple JavaScript Real Time "Ticker Graph"
