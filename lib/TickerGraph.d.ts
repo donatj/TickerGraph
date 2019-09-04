@@ -1,3 +1,6 @@
+declare var module: {
+    exports: any;
+};
 interface CallbackData {
     increment: number;
     maxIncrement: number;
@@ -21,28 +24,29 @@ interface TickerGraphOptions {
     bottomOffsetPx: number;
 }
 declare class TickerGraph {
-    protected context: CanvasRenderingContext2D;
+    protected canvas: HTMLCanvasElement;
+    protected context: CanvasRenderingContext2D | null;
     protected stackLength: number;
     protected stack: number[];
     protected lastPush: number | null;
     protected options: TickerGraphOptions;
-    protected canvas: HTMLCanvasElement;
     /**
      * @param {Node} tickerCanvas The canvas element to draw to
      * @param {Object} options The optional settings.
      * @constructor
      */
-    constructor(canvas: HTMLCanvasElement, options?: TickerGraphOptions | null);
+    constructor(canvas: HTMLCanvasElement, options?: Partial<TickerGraphOptions>);
     /**
      * Push a number value into the display stack and trigger a redraw
      *
      * @param {number} val The number to push
      */
     push(val: number): void;
+    private getContext;
     /**
      * @access private
      */
-    private draw();
+    private draw;
     /**
      * @access private
      * @returns {number}

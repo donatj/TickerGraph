@@ -1,3 +1,5 @@
+declare var module: { exports: any };
+
 interface CallbackData {
 	increment: number,
 	maxIncrement: number,
@@ -26,7 +28,7 @@ interface TickerGraphOptions {
 
 class TickerGraph {
 
-	protected context: CanvasRenderingContext2D;
+	protected context: CanvasRenderingContext2D | null = null;
 
 	protected stackLength: number;
 	protected stack: number[];
@@ -38,14 +40,12 @@ class TickerGraph {
 		bottomOffsetPx: 0
 	};
 
-	protected canvas: HTMLCanvasElement;
-
 	/**
 	 * @param {Node} tickerCanvas The canvas element to draw to
 	 * @param {Object} options The optional settings.
 	 * @constructor
 	 */
-	constructor(canvas: HTMLCanvasElement, options: TickerGraphOptions | null = null) {
+	constructor(protected canvas: HTMLCanvasElement, options: Partial<TickerGraphOptions> = {}) {
 		this.setCanvas(canvas);
 
 		this.stackLength = canvas.offsetWidth;
@@ -70,13 +70,26 @@ class TickerGraph {
 		this.draw();
 	}
 
+	private getContext(): CanvasRenderingContext2D {
+		if (this.context) {
+			return this.context;
+		}
+
+		this.context = this.canvas.getContext("2d");
+		if (!this.context) {
+			throw "Failed to get 2d context";
+		}
+
+		return this.context;
+	}
+
 	/**
 	 * @access private
 	 */
 	private draw() {
 		this.canvas.width = this.canvas.width + 0;
 
-		let c = this.context,
+		let c = this.getContext(),
 			h = this.canvas.offsetHeight,
 			xOffset = this.stackLength - this.stack.length;
 
@@ -156,20 +169,17 @@ class TickerGraph {
 	 * @param {Object} tickerCanvas The canvas element to draw to
 	 */
 	public setCanvas(tickerCanvas: HTMLCanvasElement) {
-		let ctx = tickerCanvas.getContext("2d");
-		if (!ctx) {
-			throw "Failed to get 2d context";
-		}
 		this.canvas = tickerCanvas;
-		this.context = ctx;
 		this.stackLength = tickerCanvas.offsetWidth;
 	}
 }
 
-if (typeof define == "function") {
-	define([], function () {
+if (typeof module !== "undefined" && module.exports) {
+	module.exports = TickerGraph;
+}
+
+if (typeof define === "function") {
+	define([], () => {
 		return TickerGraph;
 	});
-} else if (typeof module !== "undefined" && module.exports) {
-	module.exports = TickerGraph;
 }
