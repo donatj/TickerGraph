@@ -2,7 +2,7 @@
   "name": "ticker-graph",
   "description": "Simple Ticker Graph",
   "main": "./lib/TickerGraph.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "types": "./lib/TickerGraph.d.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
