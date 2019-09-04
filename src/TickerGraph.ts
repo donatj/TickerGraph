@@ -170,6 +170,7 @@ class TickerGraph {
 	 */
 	public setCanvas(tickerCanvas: HTMLCanvasElement) {
 		this.canvas = tickerCanvas;
+		this.context = null;
 		this.stackLength = tickerCanvas.offsetWidth;
 	}
 }
