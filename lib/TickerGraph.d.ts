@@ -16,9 +16,7 @@ interface CallbackData {
  * @callback ColorCallback
  * @param {Object} increment, maxIncrement, ratio, prevRatio, maxValue, minValue
  */
-interface ColorCallback {
-    (data: CallbackData): string;
-}
+declare type ColorCallback = (data: CallbackData) => string;
 interface TickerGraphOptions {
     color: string | ColorCallback;
     bottomOffsetPx: number;
@@ -26,7 +24,6 @@ interface TickerGraphOptions {
 declare class TickerGraph {
     protected canvas: HTMLCanvasElement;
     protected context: CanvasRenderingContext2D | null;
-    protected stackLength: number;
     protected stack: number[];
     protected lastPush: number | null;
     protected options: TickerGraphOptions;
@@ -42,6 +39,7 @@ declare class TickerGraph {
      * @param {number} val The number to push
      */
     push(val: number): void;
+    private stackLength;
     private getContext;
     /**
      * @access private

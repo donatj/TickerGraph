@@ -1,13 +1,13 @@
 declare var module: { exports: any };
 
 interface CallbackData {
-	increment: number,
-	maxIncrement: number,
-	curMaxIncrement: number,
-	ratio: number,
-	prevRatio: number | null,
-	maxValue: number,
-	minValue: number
+	increment: number;
+	maxIncrement: number;
+	curMaxIncrement: number;
+	ratio: number;
+	prevRatio: number | null;
+	maxValue: number;
+	minValue: number;
 }
 
 /**
@@ -17,9 +17,7 @@ interface CallbackData {
  * @param {Object} increment, maxIncrement, ratio, prevRatio, maxValue, minValue
  */
 
-interface ColorCallback {
-	(data: CallbackData): string;
-}
+type ColorCallback = (data: CallbackData) => string;
 
 interface TickerGraphOptions {
 	color: string | ColorCallback;
@@ -29,15 +27,13 @@ interface TickerGraphOptions {
 class TickerGraph {
 
 	protected context: CanvasRenderingContext2D | null = null;
+	protected stack: number[] = [];
 
-	protected stackLength: number;
-	protected stack: number[];
-
-	protected lastPush: number | null;
+	protected lastPush: number | null = null;
 
 	protected options: TickerGraphOptions = {
+		bottomOffsetPx: 0,
 		color: "#7c0",
-		bottomOffsetPx: 0
 	};
 
 	/**
@@ -47,12 +43,6 @@ class TickerGraph {
 	 */
 	constructor(protected canvas: HTMLCanvasElement, options: Partial<TickerGraphOptions> = {}) {
 		this.setCanvas(canvas);
-
-		this.stackLength = canvas.offsetWidth;
-		this.stack = [];
-
-		this.lastPush = null;
-
 		this.options = { ...this.options, ...options };
 	}
 
@@ -64,10 +54,19 @@ class TickerGraph {
 	public push(val: number) {
 		this.lastPush = val;
 		this.stack.push(val);
-		if (this.stack.length > this.stackLength) {
+		if (this.stack.length > this.stackLength()) {
 			this.stack.shift();
 		}
 		this.draw();
+	}
+
+	private stackLength(): number {
+		const l = this.canvas.width || this.canvas.offsetWidth;
+		if (l <= 0) {
+			throw new Error(`Invalid stack length: ${l}`);
+		}
+
+		return l;
 	}
 
 	private getContext(): CanvasRenderingContext2D {
@@ -77,7 +76,7 @@ class TickerGraph {
 
 		this.context = this.canvas.getContext("2d");
 		if (!this.context) {
-			throw "Failed to get 2d context";
+			throw new Error("Failed to get 2d context");
 		}
 
 		return this.context;
@@ -87,14 +86,20 @@ class TickerGraph {
 	 * @access private
 	 */
 	private draw() {
+		const stackLength = this.stackLength();
+
 		this.canvas.width = this.canvas.width + 0;
 
-		let c = this.getContext(),
-			h = this.canvas.offsetHeight,
-			xOffset = this.stackLength - this.stack.length;
+		const c = this.getContext();
+		const h = this.canvas.height || this.canvas.offsetHeight;
+		if (!h) {
+			throw new Error(`Invalid canvas height: ${h}`);
+		}
 
-		let max = this.max(),
-			min = this.min();
+		const xOffset = stackLength - this.stack.length;
+
+		const max = this.max();
+		const min = this.min();
 
 		if (typeof this.options.color == "string") {
 			c.strokeStyle = this.options.color;
@@ -103,26 +108,29 @@ class TickerGraph {
 		let lastRatio = null;
 		for (let i = 0; i <= this.stack.length; i++) {
 
-			let val = this.stack[i],
-				ratio = ((val - min) / (max - min));
+			const val = this.stack[i];
+			let ratio = ((val - min) / (max - min));
 
 			if (isNaN(ratio)) {
 				ratio = 0;
 			}
 
-			let scaled = ratio * h;
+			const scaled = ratio * h;
 
 			if (typeof this.options.color === "function") {
 				// @todo update this to be pretty scaled.
-				let data: CallbackData = {
+				const data: CallbackData = {
 					increment: i,
-					maxIncrement: this.stackLength,
+
 					curMaxIncrement: this.stack.length,
-					ratio: ratio,
+					maxIncrement: stackLength,
+
 					prevRatio: lastRatio,
+					ratio,
+
 					maxValue: max,
-					minValue: min
-				}
+					minValue: min,
+				};
 				c.strokeStyle = this.options.color(data);
 			}
 
@@ -142,7 +150,7 @@ class TickerGraph {
 	 * @returns {number}
 	 */
 	protected max(): number {
-		return Math.max.apply(Math, this.stack)
+		return Math.max.apply(Math, this.stack);
 	}
 
 	/**
@@ -150,7 +158,7 @@ class TickerGraph {
 	 * @returns {number}
 	 */
 	protected min(): number {
-		return Math.min.apply(Math, this.stack)
+		return Math.min.apply(Math, this.stack);
 	}
 
 	/**
@@ -171,7 +179,6 @@ class TickerGraph {
 	public setCanvas(tickerCanvas: HTMLCanvasElement) {
 		this.canvas = tickerCanvas;
 		this.context = null;
-		this.stackLength = tickerCanvas.offsetWidth;
 	}
 }
 
