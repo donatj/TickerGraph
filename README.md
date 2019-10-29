@@ -10,7 +10,7 @@ Requires **no external libraries**. It is **require-able** with RequireJS but Re
 
 Dead simple, should work in any browser that supports the `<canvas>` tag.
 
-Here are [some more examples](https://cdn.rawgit.com/donatj/TickerGraph/master/example.html).
+Here are [some more examples](https://raw.githack.com/donatj/TickerGraph/master/example.html).
 
 ## Features
 
