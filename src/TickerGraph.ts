@@ -22,6 +22,7 @@ type ColorCallback = (data: CallbackData) => string;
 interface TickerGraphOptions {
 	color: string | ColorCallback;
 	bottomOffsetPx: number;
+	clearOnDraw: boolean;
 }
 
 class TickerGraph {
@@ -34,6 +35,7 @@ class TickerGraph {
 	protected options: TickerGraphOptions = {
 		bottomOffsetPx: 0,
 		color: "#7c0",
+		clearOnDraw: true,
 	};
 
 	/**
@@ -88,7 +90,9 @@ class TickerGraph {
 	private draw() {
 		const stackLength = this.stackLength();
 
-		this.canvas.width = this.canvas.width + 0;
+		if( this.options.clearOnDraw ) {
+			this.canvas.width = this.canvas.width + 0;
+		}
 
 		const c = this.getContext();
 		const h = this.canvas.height || this.canvas.offsetHeight;

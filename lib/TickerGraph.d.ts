@@ -20,6 +20,7 @@ declare type ColorCallback = (data: CallbackData) => string;
 interface TickerGraphOptions {
     color: string | ColorCallback;
     bottomOffsetPx: number;
+    clearOnDraw: boolean;
 }
 declare class TickerGraph {
     protected canvas: HTMLCanvasElement;
