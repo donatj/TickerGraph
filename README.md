@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/ticker-graph.svg)](https://badge.fury.io/js/ticker-graph)
 
-![Ticker Image Example](https://raw.githubusercontent.com/donatj/TickerGraph/readme-images/Ticker.gif)
+<img src="https://raw.githubusercontent.com/donatj/TickerGraph/readme-images/Ticker.gif" width="100%">
 
 Simple JavaScript Real Time "Ticker Graph"
 
