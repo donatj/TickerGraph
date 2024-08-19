@@ -152,7 +152,7 @@ export class TickerGraph {
 	 * @returns {number}
 	 */
 	protected max(): number {
-		return Math.max.apply(Math, this.stack);
+		return Math.max(...this.stack);
 	}
 
 	/**
@@ -160,7 +160,7 @@ export class TickerGraph {
 	 * @returns {number}
 	 */
 	protected min(): number {
-		return Math.min.apply(Math, this.stack);
+		return Math.min(...this.stack);
 	}
 
 	/**
