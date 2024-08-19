@@ -1,5 +1,3 @@
-declare var module: { exports: any };
-
 interface CallbackData {
 	increment: number;
 	maxIncrement: number;
@@ -25,7 +23,7 @@ interface TickerGraphOptions {
 	clearOnDraw: boolean;
 }
 
-class TickerGraph {
+export class TickerGraph {
 
 	protected context: CanvasRenderingContext2D | null = null;
 	protected stack: number[] = [];
@@ -34,8 +32,8 @@ class TickerGraph {
 
 	protected options: TickerGraphOptions = {
 		bottomOffsetPx: 0,
-		color: "#7c0",
-		clearOnDraw: true,
+		color:          "#7c0",
+		clearOnDraw:    true,
 	};
 
 	/**
@@ -90,7 +88,7 @@ class TickerGraph {
 	private draw() {
 		const stackLength = this.stackLength();
 
-		if( this.options.clearOnDraw ) {
+		if (this.options.clearOnDraw) {
 			this.canvas.width = this.canvas.width + 0;
 		}
 
@@ -127,7 +125,7 @@ class TickerGraph {
 					increment: i,
 
 					curMaxIncrement: this.stack.length,
-					maxIncrement: stackLength,
+					maxIncrement:    stackLength,
 
 					prevRatio: lastRatio,
 					ratio,
@@ -184,14 +182,4 @@ class TickerGraph {
 		this.canvas = tickerCanvas;
 		this.context = null;
 	}
-}
-
-if (typeof module !== "undefined" && module.exports) {
-	module.exports = TickerGraph;
-}
-
-if (typeof define === "function") {
-	define([], () => {
-		return TickerGraph;
-	});
 }
