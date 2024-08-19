@@ -23,7 +23,7 @@ interface TickerGraphOptions {
 	clearOnDraw: boolean;
 }
 
-export class TickerGraph {
+export default class TickerGraph {
 
 	protected context: CanvasRenderingContext2D | null = null;
 	protected stack: number[] = [];
