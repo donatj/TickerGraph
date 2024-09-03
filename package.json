@@ -6,9 +6,9 @@
   "types": "./lib/TickerGraph.d.js",
   "scripts": {
     "test": "tsc --noEmit && npm run lint",
-    "build:umd": "vite build",
+    "build:js": "vite build",
     "build:dts": "tsc --emitDeclarationOnly",
-    "build": "npm run build:umd && npm run build:dts",
+    "build": "npm run build:js && npm run build:dts",
     "lint": "eslint -c .eslintrc.js 'src/**/*.ts'",
     "fix": "eslint -c .eslintrc.js 'src/**/*.ts' --fix"
   },
