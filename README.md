@@ -20,7 +20,7 @@ Here are [some more examples](https://raw.githack.com/donatj/TickerGraph/master/
 To output a simple sine wave like so: ![Small Ticker Sine Wave Example](https://raw.githubusercontent.com/donatj/TickerGraph/readme-images/SmallSineWave.gif)
 
 ```js
-import TickerGraph from 'ticker-graph';
+import { TickerGraph } from 'ticker-graph';
 
 const t = new TickerGraph(document.getElementById('cv'));
 let i = 0;

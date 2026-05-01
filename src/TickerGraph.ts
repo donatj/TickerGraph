@@ -17,13 +17,13 @@ interface CallbackData {
 
 type ColorCallback = (data: CallbackData) => string;
 
-interface TickerGraphOptions {
+export interface TickerGraphOptions {
 	color: string | ColorCallback;
 	bottomOffsetPx: number;
 	clearOnDraw: boolean;
 }
 
-class TickerGraph {
+export class TickerGraph {
 
 	protected context: CanvasRenderingContext2D | null = null;
 	protected stack: number[] = [];
@@ -184,4 +184,3 @@ class TickerGraph {
 	}
 }
 
-export = TickerGraph;
