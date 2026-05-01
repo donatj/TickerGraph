@@ -16,7 +16,7 @@ interface CallbackData {
  * @callback ColorCallback
  * @param {Object} increment, maxIncrement, ratio, prevRatio, maxValue, minValue
  */
-declare type ColorCallback = (data: CallbackData) => string;
+type ColorCallback = (data: CallbackData) => string;
 interface TickerGraphOptions {
     color: string | ColorCallback;
     bottomOffsetPx: number;

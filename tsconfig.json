@@ -2,11 +2,13 @@
     "compilerOptions": {
         "declaration": true,
         "alwaysStrict": true,
-        "target": "es3",
+        "target": "es2015",
         "noImplicitAny": true,
         "strictNullChecks": true,
         "sourceMap": true,
         "strict": true,
-        "outDir": "lib"
+        "rootDir": "./src",
+        "outDir": "lib",
+        "types": ["requirejs"]
     }
 }
