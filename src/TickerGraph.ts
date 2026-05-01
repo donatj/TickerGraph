@@ -1,5 +1,3 @@
-declare var module: { exports: any };
-
 interface CallbackData {
 	increment: number;
 	maxIncrement: number;
@@ -19,13 +17,13 @@ interface CallbackData {
 
 type ColorCallback = (data: CallbackData) => string;
 
-interface TickerGraphOptions {
+export interface TickerGraphOptions {
 	color: string | ColorCallback;
 	bottomOffsetPx: number;
 	clearOnDraw: boolean;
 }
 
-class TickerGraph {
+export class TickerGraph {
 
 	protected context: CanvasRenderingContext2D | null = null;
 	protected stack: number[] = [];
@@ -186,12 +184,3 @@ class TickerGraph {
 	}
 }
 
-if (typeof module !== "undefined" && module.exports) {
-	module.exports = TickerGraph;
-}
-
-if (typeof define === "function") {
-	define([], () => {
-		return TickerGraph;
-	});
-}
