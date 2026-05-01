@@ -1,14 +1,19 @@
 {
     "compilerOptions": {
         "declaration": true,
+        "declarationDir": "lib",
+        "emitDeclarationOnly": true,
         "alwaysStrict": true,
-        "module": "commonjs",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "target": "es2015",
         "noImplicitAny": true,
         "strictNullChecks": true,
         "sourceMap": true,
         "strict": true,
-        "rootDir": "./src",
-        "outDir": "lib"
-    }
+        "rootDir": "./src"
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
 }
