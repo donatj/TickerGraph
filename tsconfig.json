@@ -2,7 +2,8 @@
     "compilerOptions": {
         "declaration": true,
         "alwaysStrict": true,
-        "target": "es2015",
+        "target": "es5",
+        "ignoreDeprecations": "6.0",
         "noImplicitAny": true,
         "strictNullChecks": true,
         "sourceMap": true,
