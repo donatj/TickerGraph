@@ -1,5 +1,3 @@
-declare var module: { exports: any };
-
 interface CallbackData {
 	increment: number;
 	maxIncrement: number;
@@ -186,12 +184,4 @@ class TickerGraph {
 	}
 }
 
-if (typeof module !== "undefined" && module.exports) {
-	module.exports = TickerGraph;
-}
-
-if (typeof define === "function") {
-	define([], () => {
-		return TickerGraph;
-	});
-}
+export = TickerGraph;

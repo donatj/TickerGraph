@@ -1,6 +1,3 @@
-declare var module: {
-    exports: any;
-};
 interface CallbackData {
     increment: number;
     maxIncrement: number;
@@ -70,3 +67,4 @@ declare class TickerGraph {
      */
     setCanvas(tickerCanvas: HTMLCanvasElement): void;
 }
+export = TickerGraph;

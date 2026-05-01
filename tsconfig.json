@@ -2,13 +2,13 @@
     "compilerOptions": {
         "declaration": true,
         "alwaysStrict": true,
+        "module": "commonjs",
         "target": "es2015",
         "noImplicitAny": true,
         "strictNullChecks": true,
         "sourceMap": true,
         "strict": true,
         "rootDir": "./src",
-        "outDir": "lib",
-        "types": ["requirejs"]
+        "outDir": "lib"
     }
 }
