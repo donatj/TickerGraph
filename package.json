@@ -8,10 +8,11 @@
   "unpkg": "./lib/TickerGraph.min.js",
   "exports": {
     ".": {
+      "types": "./lib/TickerGraph.d.ts",
+      "browser": "./lib/TickerGraph.js",
       "import": "./lib/TickerGraph.mjs",
       "require": "./lib/TickerGraph.cjs",
-      "browser": "./lib/TickerGraph.js",
-      "types": "./lib/TickerGraph.d.ts"
+      "default": "./lib/TickerGraph.mjs"
     }
   },
   "version": "0.3.0",
