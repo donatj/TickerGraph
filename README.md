@@ -12,12 +12,18 @@ Dead simple, should work in any browser that supports the `<canvas>` tag.
 
 Here are [some more examples](https://raw.githack.com/donatj/TickerGraph/master/example.html).
 
+## Install
+
+```
+npm install ticker-graph
+```
+
 ## Features
 
 - Auto Scales to **min** and **max** values.
 - Color set-able per column via callback.
 
-## Dead Simple Example
+## Example
 
 To output a simple sine wave like so: ![Small Ticker Sine Wave Example](https://raw.githubusercontent.com/donatj/TickerGraph/readme-images/SmallSineWave.gif)
 
