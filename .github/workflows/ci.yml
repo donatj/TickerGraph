@@ -13,11 +13,14 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v6
       
-      - name: NPM Install
-        run: npm install
+      - run: npm ci
+      - run: npm run build:all
+      - run: npm run lint
 
-      - name: Lint
-        run: ./node_modules/.bin/tslint -c tslint.json src/**/*.ts
-
-      - name: Build
-        run: ./node_modules/.bin/tsc
+      - name: Check generated lib is clean
+        run: |
+          if ! git diff --quiet -- ./lib; then
+            git diff -- ./lib
+            echo "::error::./lib has uncommitted changes after build"
+            exit 1
+          fi

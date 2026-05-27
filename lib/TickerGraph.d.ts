@@ -1,7 +1,10 @@
-declare var module: {
-    exports: any;
-};
-interface CallbackData {
+/*!
+ * Copyright (c) Jesse G. Donat and contributors.
+ * Licensed under the MIT License.
+ *
+ * This notice may not be removed or altered from any source distribution.
+ */
+export interface CallbackData {
     increment: number;
     maxIncrement: number;
     curMaxIncrement: number;
@@ -16,13 +19,13 @@ interface CallbackData {
  * @callback ColorCallback
  * @param {Object} increment, maxIncrement, ratio, prevRatio, maxValue, minValue
  */
-declare type ColorCallback = (data: CallbackData) => string;
-interface TickerGraphOptions {
+export type ColorCallback = (data: CallbackData) => string;
+export interface TickerGraphOptions {
     color: string | ColorCallback;
     bottomOffsetPx: number;
     clearOnDraw: boolean;
 }
-declare class TickerGraph {
+export default class TickerGraph {
     protected canvas: HTMLCanvasElement;
     protected context: CanvasRenderingContext2D | null;
     protected stack: number[];
@@ -42,19 +45,8 @@ declare class TickerGraph {
     push(val: number): void;
     private stackLength;
     private getContext;
-    /**
-     * @access private
-     */
     private draw;
-    /**
-     * @access private
-     * @returns {number}
-     */
     protected max(): number;
-    /**
-     * @access private
-     * @returns {number}
-     */
     protected min(): number;
     /**
      * Set the color either as a string (eg "#333" or "rgba(0,0,0,50)")

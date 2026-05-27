@@ -1,11 +1,16 @@
-declare var module: { exports: any };
+/*!
+ * Copyright (c) Jesse G. Donat and contributors.
+ * Licensed under the MIT License.
+ *
+ * This notice may not be removed or altered from any source distribution.
+ */
 
-interface CallbackData {
+export interface CallbackData {
 	increment: number;
 	maxIncrement: number;
 	curMaxIncrement: number;
 	ratio: number;
-	prevRatio: number | null;
+	prevRatio: number|null;
 	maxValue: number;
 	minValue: number;
 }
@@ -17,20 +22,20 @@ interface CallbackData {
  * @param {Object} increment, maxIncrement, ratio, prevRatio, maxValue, minValue
  */
 
-type ColorCallback = (data: CallbackData) => string;
+export type ColorCallback = (data: CallbackData) => string;
 
-interface TickerGraphOptions {
-	color: string | ColorCallback;
+export interface TickerGraphOptions {
+	color: string|ColorCallback;
 	bottomOffsetPx: number;
 	clearOnDraw: boolean;
 }
 
-class TickerGraph {
+export default class TickerGraph {
 
-	protected context: CanvasRenderingContext2D | null = null;
+	protected context: CanvasRenderingContext2D|null = null;
 	protected stack: number[] = [];
 
-	protected lastPush: number | null = null;
+	protected lastPush: number|null = null;
 
 	protected options: TickerGraphOptions = {
 		bottomOffsetPx: 0,
@@ -43,7 +48,10 @@ class TickerGraph {
 	 * @param {Object} options The optional settings.
 	 * @constructor
 	 */
-	constructor(protected canvas: HTMLCanvasElement, options: Partial<TickerGraphOptions> = {}) {
+	constructor(
+		protected canvas: HTMLCanvasElement,
+		options: Partial<TickerGraphOptions> = {}
+	) {
 		this.setCanvas(canvas);
 		this.options = { ...this.options, ...options };
 	}
@@ -53,7 +61,7 @@ class TickerGraph {
 	 *
 	 * @param {number} val The number to push
 	 */
-	public push(val: number) {
+	public push(val: number): void {
 		this.lastPush = val;
 		this.stack.push(val);
 		if (this.stack.length > this.stackLength()) {
@@ -84,13 +92,10 @@ class TickerGraph {
 		return this.context;
 	}
 
-	/**
-	 * @access private
-	 */
-	private draw() {
+	private draw(): void {
 		const stackLength = this.stackLength();
 
-		if( this.options.clearOnDraw ) {
+		if (this.options.clearOnDraw) {
 			this.canvas.width = this.canvas.width + 0;
 		}
 
@@ -105,15 +110,15 @@ class TickerGraph {
 		const max = this.max();
 		const min = this.min();
 
-		if (typeof this.options.color == "string") {
+		if (typeof this.options.color === "string") {
 			c.strokeStyle = this.options.color;
 		}
 
-		let lastRatio = null;
+		let lastRatio: number|null = null;
 		for (let i = 0; i <= this.stack.length; i++) {
 
 			const val = this.stack[i];
-			let ratio = ((val - min) / (max - min));
+			let ratio = (val - min) / (max - min);
 
 			if (isNaN(ratio)) {
 				ratio = 0;
@@ -149,20 +154,12 @@ class TickerGraph {
 		}
 	}
 
-	/**
-	 * @access private
-	 * @returns {number}
-	 */
 	protected max(): number {
-		return Math.max.apply(Math, this.stack);
+		return Math.max(...this.stack);
 	}
 
-	/**
-	 * @access private
-	 * @returns {number}
-	 */
 	protected min(): number {
-		return Math.min.apply(Math, this.stack);
+		return Math.min(...this.stack);
 	}
 
 	/**
@@ -171,7 +168,7 @@ class TickerGraph {
 	 *
 	 * @param {string|ColorCallback} color
 	 */
-	public setColor(color: string | ColorCallback) {
+	public setColor(color: string|ColorCallback): void {
 		this.options.color = color;
 	}
 
@@ -180,18 +177,8 @@ class TickerGraph {
 	 *
 	 * @param {Object} tickerCanvas The canvas element to draw to
 	 */
-	public setCanvas(tickerCanvas: HTMLCanvasElement) {
+	public setCanvas(tickerCanvas: HTMLCanvasElement): void {
 		this.canvas = tickerCanvas;
 		this.context = null;
 	}
-}
-
-if (typeof module !== "undefined" && module.exports) {
-	module.exports = TickerGraph;
-}
-
-if (typeof define === "function") {
-	define([], () => {
-		return TickerGraph;
-	});
 }
