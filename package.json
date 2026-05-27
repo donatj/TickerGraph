@@ -23,7 +23,7 @@
     "clean": "rm -rf lib",
     "build": "rollup -c rollup.config.mjs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir lib",
-    "build:all": "npm run build && npm run build:types"
+    "build:all": "npm run clean && npm run build && npm run build:types"
   },
   "repository": {
     "type": "git",

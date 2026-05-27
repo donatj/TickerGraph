@@ -14,7 +14,6 @@ jobs:
         uses: actions/setup-node@v6
       
       - run: npm ci
-      - run: npm run clean
       - run: npm run build:all
       - run: npm run lint
 
