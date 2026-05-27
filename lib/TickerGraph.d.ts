@@ -39,19 +39,8 @@ export default class TickerGraph {
     push(val: number): void;
     private stackLength;
     private getContext;
-    /**
-     * @access private
-     */
     private draw;
-    /**
-     * @access private
-     * @returns {number}
-     */
     protected max(): number;
-    /**
-     * @access private
-     * @returns {number}
-     */
     protected min(): number;
     /**
      * Set the color either as a string (eg "#333" or "rgba(0,0,0,50)")
