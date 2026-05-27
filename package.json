@@ -2,7 +2,7 @@
   "name": "ticker-graph",
   "description": "Simple Ticker Graph",
   "type": "module",
-  "main": "./lib/TickerGraph.js",
+  "main": "./lib/TickerGraph.cjs",
   "module": "./lib/TickerGraph.mjs",
   "browser": "./lib/TickerGraph.js",
   "unpkg": "./lib/TickerGraph.min.js",
