@@ -6,9 +6,7 @@
 
 Simple JavaScript Real Time "Ticker Graph"
 
-Requires **no external libraries**. It is **require-able** with RequireJS but RequireJS is by no means *required*.
-
-Dead simple, should work in any browser that supports the `<canvas>` tag.
+Requires **no external libraries**.
 
 Here are [some more examples](https://raw.githack.com/donatj/TickerGraph/master/example.html).
 
@@ -31,8 +29,8 @@ To output a simple sine wave like so: ![Small Ticker Sine Wave Example](https://
 <script src="src/TickerGraph.js"></script>
 <canvas id="cv" width="100" height="40"></canvas>
 <script>
-	var t = new TickerGraph( document.getElementById("cv") );
-	var i = 0;
+	const t = new TickerGraph( document.getElementById("cv") );
+	let i = 0;
 	setInterval(function(){
 		t.push( Math.sin(i++ / 10) );
 	}, 20);
