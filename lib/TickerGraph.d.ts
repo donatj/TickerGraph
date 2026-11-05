@@ -28,9 +28,9 @@ export interface TickerGraphOptions {
 export interface TickerGraphPushOptions {
     color: string;
 }
-type StackEntry = number | {
+type StackEntry = {
     n: number;
-    options: TickerGraphPushOptions;
+    options?: TickerGraphPushOptions;
 };
 export default class TickerGraph {
     protected canvas: HTMLCanvasElement;

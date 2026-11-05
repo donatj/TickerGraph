@@ -108,7 +108,9 @@ test('uses per-value colors across redraws and restores the graph color', () => 
 	graph.push(6, { color: 'red' });
 	canvas.events.length = 0;
 	graph.push(4);
-	assert.deepEqual(graph.getStack(), [2, { n: 6, options: { color: 'red' } }, 4]);
+	assert.deepEqual(graph.getStack(), [
+		{ n: 2, options: undefined }, { n: 6, options: { color: 'red' } }, { n: 4, options: undefined },
+	]);
 	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
 		['color', 'green'], ['color', 'red'], ['color', 'green'],
 	]);
@@ -118,7 +120,9 @@ test('uses per-value colors across redraws and restores the graph color', () => 
 	graph.setColor('blue');
 	canvas.events.length = 0;
 	graph.push(8);
-	assert.deepEqual(graph.getStack(), [{ n: 6, options: { color: 'red' } }, 4, 8]);
+	assert.deepEqual(graph.getStack(), [
+		{ n: 6, options: { color: 'red' } }, { n: 4, options: undefined }, { n: 8, options: undefined },
+	]);
 	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
 		['color', 'blue'], ['color', 'red'], ['color', 'blue'],
 	]);
@@ -157,7 +161,7 @@ test('preserves protected state and custom bounds in subclasses', () => {
 	const canvas = makeCanvas();
 	const graph = new CustomGraph(canvas);
 	graph.push(5);
-	assert.deepEqual(graph.getState(), { stack: [5], lastPush: 5 });
+	assert.deepEqual(graph.getState(), { stack: [{ n: 5, options: undefined }], lastPush: 5 });
 	assert.deepEqual(canvas.events.filter((event) => event[0] === 'line'), [
 		['line', 1, 5], ['line', 2, 10],
 	]);

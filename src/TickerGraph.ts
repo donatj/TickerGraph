@@ -34,11 +34,7 @@ export interface TickerGraphPushOptions {
 	color: string;
 }
 
-type StackEntry = number|{ n: number; options: TickerGraphPushOptions };
-
-function entryValue(entry: StackEntry): number {
-	return typeof entry === "number" ? entry : entry.n;
-}
+type StackEntry = { n: number; options?: TickerGraphPushOptions };
 
 function validateStackLength(length: number): number {
 	if (length <= 0) {
@@ -89,7 +85,7 @@ export default class TickerGraph {
 	 */
 	public push(val: number, options?: TickerGraphPushOptions): void {
 		this.lastPush = val;
-		this.stack.push(options === undefined ? val : { n: val, options });
+		this.stack.push({ n: val, options });
 		if (this.stack.length > this.stackLength()) {
 			this.stack.shift();
 		}
@@ -140,10 +136,9 @@ export default class TickerGraph {
 		for (let i = 0; i <= this.stack.length; i++) {
 
 			const entry: StackEntry|undefined = this.stack[i];
-			const value = entry === undefined ? undefined : entryValue(entry);
-			const { ratio, scaled } = calculateColumn(value, min, max, h);
+			const { ratio, scaled } = calculateColumn(entry?.n, min, max, h);
 
-			if (typeof entry === "object") {
+			if (entry?.options !== undefined) {
 				c.strokeStyle = entry.options.color;
 				lastColorWasOverride = true;
 			} else if (typeof this.options.color === "function") {
@@ -179,11 +174,11 @@ export default class TickerGraph {
 	}
 
 	protected max(): number {
-		return Math.max(...this.stack.map(entryValue));
+		return Math.max(...this.stack.map((entry) => entry.n));
 	}
 
 	protected min(): number {
-		return Math.min(...this.stack.map(entryValue));
+		return Math.min(...this.stack.map((entry) => entry.n));
 	}
 
 	/**
