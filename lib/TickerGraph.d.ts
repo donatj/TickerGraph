@@ -51,6 +51,10 @@ export default class TickerGraph {
      * @param {TickerGraphPushOptions} options Optional color for this value
      */
     push(val: number, options?: TickerGraphPushOptions): void;
+    /**
+     * Return the current values from oldest to newest
+     */
+    getValues(): number[];
     private stackLength;
     private getContext;
     private draw;

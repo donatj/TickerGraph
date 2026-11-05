@@ -92,6 +92,13 @@ export default class TickerGraph {
 		this.draw();
 	}
 
+	/**
+	 * Return the current values from oldest to newest
+	 */
+	public getValues(): number[] {
+		return this.stack.map((entry) => entry.n);
+	}
+
 	private stackLength(): number {
 		return validateStackLength(this.canvas.width || this.canvas.offsetWidth);
 	}

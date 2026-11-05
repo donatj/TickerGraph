@@ -46,3 +46,10 @@ t.push(42, { color: "#f00" });
 
 This color takes precedence over the graph's color or color callback for that
 value. Other values continue to use the graph's color or callback.
+
+Get the current values from oldest to newest with `getValues`. It returns a new
+array, so changes to the array do not affect the graph.
+
+```js
+const values = t.getValues();
+```

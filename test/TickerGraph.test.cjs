@@ -98,6 +98,22 @@ test('uses option changes made by a color callback on later columns', () => {
 	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [['color', 'red']]);
 });
 
+test('returns a separate array of current values in order', () => {
+	const graph = new TickerGraph(makeCanvas(3));
+	assert.deepEqual(graph.getValues(), []);
+	graph.push(1);
+	graph.push(2, { color: 'red' });
+	graph.push(3, {});
+	const values = graph.getValues();
+	assert.deepEqual(values, [1, 2, 3]);
+	values[0] = 99;
+	values.push(100);
+	assert.deepEqual(graph.getValues(), [1, 2, 3]);
+	graph.push(4);
+	assert.deepEqual(graph.getValues(), [2, 3, 4]);
+	assert.deepEqual(values, [99, 2, 3, 100]);
+});
+
 test('uses per-value colors across redraws and restores the graph color', () => {
 	class InspectableGraph extends TickerGraph {
 		getStack() { return this.stack.slice(); }
@@ -211,6 +227,7 @@ test('each package entry point exposes a working graph constructor', async () =>
 		]);
 		canvas.events.length = 0;
 		graph.push(2, { color: 'red' });
+		assert.deepEqual(Array.from(graph.getValues()), [1, 2]);
 		assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
 			['color', '#7c0'], ['color', 'red'], ['color', '#7c0'],
 		]);
