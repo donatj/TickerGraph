@@ -30,10 +30,23 @@ export interface TickerGraphOptions {
 	clearOnDraw: boolean;
 }
 
+export interface TickerGraphPushOptions {
+	color?: string;
+}
+
+type StackEntry = { n: number; options?: TickerGraphPushOptions };
+
+function calculateColumn(value: number|undefined, min: number, max: number, height: number): { ratio: number; scaled: number } {
+	const rawRatio = value === undefined ? NaN : (value - min) / (max - min);
+	const ratio = isNaN(rawRatio) ? 0 : rawRatio;
+
+	return { ratio, scaled: ratio * height };
+}
+
 export default class TickerGraph {
 
 	protected context: CanvasRenderingContext2D|null = null;
-	protected stack: number[] = [];
+	protected stack: StackEntry[] = [];
 
 	protected lastPush: number|null = null;
 
@@ -60,23 +73,38 @@ export default class TickerGraph {
 	 * Push a number value into the display stack and trigger a redraw
 	 *
 	 * @param {number} val The number to push
+	 * @param {TickerGraphPushOptions} options Optional color for this value
 	 */
-	public push(val: number): void {
+	public push(val: number, options?: TickerGraphPushOptions): void {
 		this.lastPush = val;
-		this.stack.push(val);
+		this.stack.push({ n: val, options });
 		if (this.stack.length > this.stackLength()) {
 			this.stack.shift();
 		}
 		this.draw();
 	}
 
+	/**
+	 * Return the current values from oldest to newest
+	 */
+	public getValues(): number[] {
+		return this.stack.map((entry) => entry.n);
+	}
+
+	/**
+	 * Return the most recently pushed value, or null if none was pushed
+	 */
+	public getLastValue(): number|null {
+		return this.lastPush;
+	}
+
 	private stackLength(): number {
-		const l = this.canvas.width || this.canvas.offsetWidth;
-		if (l <= 0) {
-			throw new Error(`Invalid stack length: ${l}`);
+		const length = this.canvas.width || this.canvas.offsetWidth;
+		if (length <= 0) {
+			throw new Error(`Invalid stack length: ${length}`);
 		}
 
-		return l;
+		return length;
 	}
 
 	private getContext(): CanvasRenderingContext2D {
@@ -115,18 +143,17 @@ export default class TickerGraph {
 		}
 
 		let lastRatio: number|null = null;
+		let lastColorWasOverride = false;
 		for (let i = 0; i <= this.stack.length; i++) {
 
-			const val = this.stack[i];
-			let ratio = (val - min) / (max - min);
+			const entry: StackEntry|undefined = this.stack[i];
+			const { ratio, scaled } = calculateColumn(entry?.n, min, max, h);
 
-			if (isNaN(ratio)) {
-				ratio = 0;
-			}
-
-			const scaled = ratio * h;
-
-			if (typeof this.options.color === "function") {
+			const color = entry?.options?.color;
+			if (color !== undefined) {
+				c.strokeStyle = color;
+				lastColorWasOverride = true;
+			} else if (typeof this.options.color === "function") {
 				// @todo update this to be pretty scaled.
 				const data: CallbackData = {
 					increment: i,
@@ -141,6 +168,10 @@ export default class TickerGraph {
 					minValue: min,
 				};
 				c.strokeStyle = this.options.color(data);
+				lastColorWasOverride = false;
+			} else if (lastColorWasOverride) {
+				c.strokeStyle = this.options.color;
+				lastColorWasOverride = false;
 			}
 
 			c.beginPath();
@@ -155,11 +186,11 @@ export default class TickerGraph {
 	}
 
 	protected max(): number {
-		return Math.max(...this.stack);
+		return Math.max(...this.stack.map((entry) => entry.n));
 	}
 
 	protected min(): number {
-		return Math.min(...this.stack);
+		return Math.min(...this.stack.map((entry) => entry.n));
 	}
 
 	/**

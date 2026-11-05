@@ -25,14 +25,16 @@
 				}),
 				tSporadic = new TickerGraph(document.getElementById('TickerSampleSporadic'), {bottomOffsetPx: 2}),
 				tOccasional = new TickerGraph(document.getElementById('TickerSampleOccasional'), {bottomOffsetPx: 2}),
-				tSine = new TickerGraph(document.getElementById('TickerSampleSinusoidal'));
+				tSine = new TickerGraph(document.getElementById('TickerSampleSinusoidal')),
+				tRandomColors = new TickerGraph(document.getElementById('TickerSampleRandomColors'));
 
 
 			var valRandChange = 0,
 				valDec = 0,
 				valSporadic = 0,
 				valOccasional = 0,
-				valSine = 0;
+				valSine = 0,
+				valChaos = .5;
 
 			setInterval(function() {
 				valDec -= (Math.random() - .45);
@@ -53,6 +55,12 @@
 
 				valSine += .05;
 				tSine.push(Math.sin(valSine));
+
+				// The logistic map creates an irregular pattern.
+				valChaos = 3.9 * valChaos * (1 - valChaos);
+				tRandomColors.push(valChaos, {
+					color: "hsl(" + Math.floor(Math.random() * 360) + ", 80%, 50%)"
+				});
 			}, 50);
 		});
 	</script>
@@ -75,6 +83,8 @@
 <canvas id="TickerSampleOccasional" width="400px" height="100px"></canvas>
 <br />
 <canvas id="TickerSampleSinusoidal" width="400px" height="100px"></canvas>
+<br />
+<canvas id="TickerSampleRandomColors" width="400px" height="100px"></canvas>
 
 </body>
 </html>
