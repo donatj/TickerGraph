@@ -31,7 +31,7 @@ export interface TickerGraphOptions {
 }
 
 export interface TickerGraphPushOptions {
-	color: string;
+	color?: string;
 }
 
 type StackEntry = { n: number; options?: TickerGraphPushOptions };
@@ -138,8 +138,9 @@ export default class TickerGraph {
 			const entry: StackEntry|undefined = this.stack[i];
 			const { ratio, scaled } = calculateColumn(entry?.n, min, max, h);
 
-			if (entry?.options !== undefined) {
-				c.strokeStyle = entry.options.color;
+			const color = entry?.options?.color;
+			if (color !== undefined) {
+				c.strokeStyle = color;
 				lastColorWasOverride = true;
 			} else if (typeof this.options.color === "function") {
 				// @todo update this to be pretty scaled.

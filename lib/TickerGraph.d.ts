@@ -26,7 +26,7 @@ export interface TickerGraphOptions {
     clearOnDraw: boolean;
 }
 export interface TickerGraphPushOptions {
-    color: string;
+    color?: string;
 }
 type StackEntry = {
     n: number;

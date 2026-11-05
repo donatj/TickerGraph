@@ -152,6 +152,25 @@ test('skips the color callback for overridden values while preserving ratios', (
 	]);
 });
 
+test('uses the graph color or callback when push options omit color', () => {
+	const canvas = makeCanvas(3);
+	const graph = new TickerGraph(canvas, { color: 'green' });
+	graph.push(1, { color: 'red' });
+	canvas.events.length = 0;
+	graph.push(2, {});
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
+		['color', 'green'], ['color', 'red'], ['color', 'green'],
+	]);
+	const calls = [];
+	graph.setColor((data) => { calls.push(data.increment); return 'blue'; });
+	canvas.events.length = 0;
+	graph.push(3, { color: undefined });
+	assert.deepEqual(calls, [1, 2, 3]);
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
+		['color', 'red'], ['color', 'blue'], ['color', 'blue'], ['color', 'blue'],
+	]);
+});
+
 test('preserves protected state and custom bounds in subclasses', () => {
 	class CustomGraph extends TickerGraph {
 		max() { return 10; }
