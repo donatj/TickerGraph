@@ -99,6 +99,13 @@ export default class TickerGraph {
 		return this.stack.map((entry) => entry.n);
 	}
 
+	/**
+	 * Return the most recently pushed value, or null if none was pushed
+	 */
+	public getLastValue(): number|null {
+		return this.lastPush;
+	}
+
 	private stackLength(): number {
 		return validateStackLength(this.canvas.width || this.canvas.offsetWidth);
 	}

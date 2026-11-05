@@ -55,6 +55,10 @@ export default class TickerGraph {
      * Return the current values from oldest to newest
      */
     getValues(): number[];
+    /**
+     * Return the most recently pushed value, or null if none was pushed
+     */
+    getLastValue(): number | null;
     private stackLength;
     private getContext;
     private draw;

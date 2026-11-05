@@ -53,3 +53,10 @@ array, so changes to the array do not affect the graph.
 ```js
 const values = t.getValues();
 ```
+
+Use `getLastValue` to get the most recently pushed value. It returns `null`
+before the first value is pushed.
+
+```js
+const lastValue = t.getLastValue();
+```

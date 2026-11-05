@@ -114,6 +114,17 @@ test('returns a separate array of current values in order', () => {
 	assert.deepEqual(values, [99, 2, 3, 100]);
 });
 
+test('returns the most recently pushed value', () => {
+	const graph = new TickerGraph(makeCanvas(2));
+	assert.equal(graph.getLastValue(), null);
+	graph.push(0);
+	assert.equal(graph.getLastValue(), 0);
+	graph.push(3, { color: 'red' });
+	assert.equal(graph.getLastValue(), 3);
+	graph.push(-2);
+	assert.equal(graph.getLastValue(), -2);
+});
+
 test('uses per-value colors across redraws and restores the graph color', () => {
 	class InspectableGraph extends TickerGraph {
 		getStack() { return this.stack.slice(); }
@@ -228,6 +239,7 @@ test('each package entry point exposes a working graph constructor', async () =>
 		canvas.events.length = 0;
 		graph.push(2, { color: 'red' });
 		assert.deepEqual(Array.from(graph.getValues()), [1, 2]);
+		assert.equal(graph.getLastValue(), 2);
 		assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
 			['color', '#7c0'], ['color', 'red'], ['color', '#7c0'],
 		]);
