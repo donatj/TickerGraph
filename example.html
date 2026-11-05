@@ -25,7 +25,8 @@
 				}),
 				tSporadic = new TickerGraph(document.getElementById('TickerSampleSporadic'), {bottomOffsetPx: 2}),
 				tOccasional = new TickerGraph(document.getElementById('TickerSampleOccasional'), {bottomOffsetPx: 2}),
-				tSine = new TickerGraph(document.getElementById('TickerSampleSinusoidal'));
+				tSine = new TickerGraph(document.getElementById('TickerSampleSinusoidal')),
+				tRandomColors = new TickerGraph(document.getElementById('TickerSampleRandomColors'));
 
 
 			var valRandChange = 0,
@@ -53,6 +54,9 @@
 
 				valSine += .05;
 				tSine.push(Math.sin(valSine));
+				tRandomColors.push(Math.sin(valSine), {
+					color: "hsl(" + Math.floor(Math.random() * 360) + ", 80%, 50%)"
+				});
 			}, 50);
 		});
 	</script>
@@ -75,6 +79,8 @@
 <canvas id="TickerSampleOccasional" width="400px" height="100px"></canvas>
 <br />
 <canvas id="TickerSampleSinusoidal" width="400px" height="100px"></canvas>
+<br />
+<canvas id="TickerSampleRandomColors" width="400px" height="100px"></canvas>
 
 </body>
 </html>
