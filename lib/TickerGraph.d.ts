@@ -25,10 +25,17 @@ export interface TickerGraphOptions {
     bottomOffsetPx: number;
     clearOnDraw: boolean;
 }
+export interface TickerGraphPushOptions {
+    color: string;
+}
+type StackEntry = number | {
+    n: number;
+    options: TickerGraphPushOptions;
+};
 export default class TickerGraph {
     protected canvas: HTMLCanvasElement;
     protected context: CanvasRenderingContext2D | null;
-    protected stack: number[];
+    protected stack: StackEntry[];
     protected lastPush: number | null;
     protected options: TickerGraphOptions;
     /**
@@ -41,8 +48,9 @@ export default class TickerGraph {
      * Push a number value into the display stack and trigger a redraw
      *
      * @param {number} val The number to push
+     * @param {TickerGraphPushOptions} options Optional color for this value
      */
-    push(val: number): void;
+    push(val: number, options?: TickerGraphPushOptions): void;
     private stackLength;
     private getContext;
     private draw;
@@ -62,3 +70,4 @@ export default class TickerGraph {
      */
     setCanvas(tickerCanvas: HTMLCanvasElement): void;
 }
+export {};

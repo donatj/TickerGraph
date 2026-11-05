@@ -98,6 +98,56 @@ test('uses option changes made by a color callback on later columns', () => {
 	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [['color', 'red']]);
 });
 
+test('uses per-value colors across redraws and restores the graph color', () => {
+	class InspectableGraph extends TickerGraph {
+		getStack() { return this.stack.slice(); }
+	}
+	const canvas = makeCanvas(3);
+	const graph = new InspectableGraph(canvas, { color: 'green' });
+	graph.push(2);
+	graph.push(6, { color: 'red' });
+	canvas.events.length = 0;
+	graph.push(4);
+	assert.deepEqual(graph.getStack(), [2, { n: 6, options: { color: 'red' } }, 4]);
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
+		['color', 'green'], ['color', 'red'], ['color', 'green'],
+	]);
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'line'), [
+		['line', 0, 10], ['line', 1, 0], ['line', 2, 5], ['line', 3, 10],
+	]);
+	graph.setColor('blue');
+	canvas.events.length = 0;
+	graph.push(8);
+	assert.deepEqual(graph.getStack(), [{ n: 6, options: { color: 'red' } }, 4, 8]);
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
+		['color', 'blue'], ['color', 'red'], ['color', 'blue'],
+	]);
+	canvas.events.length = 0;
+	graph.push(10);
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [['color', 'blue']]);
+});
+
+test('skips the color callback for overridden values while preserving ratios', () => {
+	const canvas = makeCanvas(3);
+	const data = [];
+	const graph = new TickerGraph(canvas, {
+		color: (column) => { data.push(column); return `color-${column.increment}`; },
+	});
+	graph.push(2);
+	graph.push(6, { color: 'red' });
+	data.length = 0;
+	canvas.events.length = 0;
+	graph.push(4);
+	assert.deepEqual(data, [
+		{ increment: 0, curMaxIncrement: 3, maxIncrement: 3, prevRatio: null, ratio: 0, maxValue: 6, minValue: 2 },
+		{ increment: 2, curMaxIncrement: 3, maxIncrement: 3, prevRatio: 1, ratio: 0.5, maxValue: 6, minValue: 2 },
+		{ increment: 3, curMaxIncrement: 3, maxIncrement: 3, prevRatio: 0.5, ratio: 0, maxValue: 6, minValue: 2 },
+	]);
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
+		['color', 'color-0'], ['color', 'red'], ['color', 'color-2'], ['color', 'color-3'],
+	]);
+});
+
 test('preserves protected state and custom bounds in subclasses', () => {
 	class CustomGraph extends TickerGraph {
 		max() { return 10; }
@@ -131,9 +181,15 @@ test('each package entry point exposes a working graph constructor', async () =>
 	}
 	for (const Graph of constructors) {
 		const canvas = makeCanvas();
-		new Graph(canvas).push(1);
+		const graph = new Graph(canvas);
+		graph.push(1);
 		assert.deepEqual(canvas.events.filter((event) => event[0] === 'line'), [
 			['line', 1, 10], ['line', 2, 10],
+		]);
+		canvas.events.length = 0;
+		graph.push(2, { color: 'red' });
+		assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
+			['color', '#7c0'], ['color', 'red'], ['color', '#7c0'],
 		]);
 	}
 });

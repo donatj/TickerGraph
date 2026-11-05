@@ -20,6 +20,7 @@ npm install ticker-graph
 
 - Auto Scales to **min** and **max** values.
 - Color set-able per column via callback.
+- Set a color for an individual value when calling `push`.
 
 ## Example
 
@@ -36,3 +37,12 @@ To output a simple sine wave like so: ![Small Ticker Sine Wave Example](https://
 	}, 20);
 </script>
 ```
+
+Pass a color for a single value with `push`:
+
+```js
+t.push(42, { color: "#f00" });
+```
+
+This color takes precedence over the graph's color or color callback for that
+value. Other values continue to use the graph's color or callback.
