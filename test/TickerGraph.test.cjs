@@ -158,6 +158,21 @@ test('uses per-value colors across redraws and restores the graph color', () => 
 	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [['color', 'blue']]);
 });
 
+test('uses changes to a stored options object on the next redraw', () => {
+	const canvas = makeCanvas(3);
+	const graph = new TickerGraph(canvas);
+	const options = { color: 'red' };
+	graph.push(1, options);
+	options.color = 'blue';
+	graph.push(2, options);
+	options.color = 'green';
+	canvas.events.length = 0;
+	graph.push(3);
+	assert.deepEqual(canvas.events.filter((event) => event[0] === 'color'), [
+		['color', '#7c0'], ['color', 'green'], ['color', 'green'], ['color', '#7c0'],
+	]);
+});
+
 test('skips the color callback for overridden values while preserving ratios', () => {
 	const canvas = makeCanvas(3);
 	const data = [];

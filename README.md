@@ -27,7 +27,7 @@ npm install ticker-graph
 To output a simple sine wave like so: ![Small Ticker Sine Wave Example](https://raw.githubusercontent.com/donatj/TickerGraph/readme-images/SmallSineWave.gif)
 
 ```html
-<script src="src/TickerGraph.js"></script>
+<script src="lib/TickerGraph.js"></script>
 <canvas id="cv" width="100" height="40"></canvas>
 <script>
 	const t = new TickerGraph( document.getElementById("cv") );
@@ -46,6 +46,10 @@ t.push(42, { color: "#f00" });
 
 This color takes precedence over the graph's color or color callback for that
 value. Other values continue to use the graph's color or callback.
+
+The graph keeps a reference to the options object. You can change its color
+later. The change appears when the next `push` redraws the graph. Values that
+share an options object will all use its updated color.
 
 Get the current values from oldest to newest with `getValues`. It returns a new
 array, so changes to the array do not affect the graph.
