@@ -30,6 +30,21 @@ export interface TickerGraphOptions {
 	clearOnDraw: boolean;
 }
 
+function validateStackLength(length: number): number {
+	if (length <= 0) {
+		throw new Error(`Invalid stack length: ${length}`);
+	}
+
+	return length;
+}
+
+function calculateColumn(value: number, min: number, max: number, height: number): { ratio: number; scaled: number } {
+	const rawRatio = (value - min) / (max - min);
+	const ratio = isNaN(rawRatio) ? 0 : rawRatio;
+
+	return { ratio, scaled: ratio * height };
+}
+
 export default class TickerGraph {
 
 	protected context: CanvasRenderingContext2D|null = null;
@@ -71,12 +86,7 @@ export default class TickerGraph {
 	}
 
 	private stackLength(): number {
-		const l = this.canvas.width || this.canvas.offsetWidth;
-		if (l <= 0) {
-			throw new Error(`Invalid stack length: ${l}`);
-		}
-
-		return l;
+		return validateStackLength(this.canvas.width || this.canvas.offsetWidth);
 	}
 
 	private getContext(): CanvasRenderingContext2D {
@@ -117,14 +127,7 @@ export default class TickerGraph {
 		let lastRatio: number|null = null;
 		for (let i = 0; i <= this.stack.length; i++) {
 
-			const val = this.stack[i];
-			let ratio = (val - min) / (max - min);
-
-			if (isNaN(ratio)) {
-				ratio = 0;
-			}
-
-			const scaled = ratio * h;
+			const { ratio, scaled } = calculateColumn(this.stack[i], min, max, h);
 
 			if (typeof this.options.color === "function") {
 				// @todo update this to be pretty scaled.
