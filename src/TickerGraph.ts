@@ -36,14 +36,6 @@ export interface TickerGraphPushOptions {
 
 type StackEntry = { n: number; options?: TickerGraphPushOptions };
 
-function validateStackLength(length: number): number {
-	if (length <= 0) {
-		throw new Error(`Invalid stack length: ${length}`);
-	}
-
-	return length;
-}
-
 function calculateColumn(value: number|undefined, min: number, max: number, height: number): { ratio: number; scaled: number } {
 	const rawRatio = value === undefined ? NaN : (value - min) / (max - min);
 	const ratio = isNaN(rawRatio) ? 0 : rawRatio;
@@ -107,7 +99,12 @@ export default class TickerGraph {
 	}
 
 	private stackLength(): number {
-		return validateStackLength(this.canvas.width || this.canvas.offsetWidth);
+		const length = this.canvas.width || this.canvas.offsetWidth;
+		if (length <= 0) {
+			throw new Error(`Invalid stack length: ${length}`);
+		}
+
+		return length;
 	}
 
 	private getContext(): CanvasRenderingContext2D {
